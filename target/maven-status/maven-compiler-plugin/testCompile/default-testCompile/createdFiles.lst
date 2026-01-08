@@ -1,0 +1,4 @@
+com/payin/domain/model/PayInTest.class
+com/payin/domain/service/PayInServiceTest.class
+com/payin/infrastructure/adapter/PayInRepositoryAdapterIntegrationTest.class
+com/payin/interfaces/rest/PayInControllerIntegrationTest.class

@@ -1,0 +1,4 @@
+/home/galopez/projects/payIn/src/test/java/com/payin/domain/service/PayInServiceTest.java
+/home/galopez/projects/payIn/src/test/java/com/payin/infrastructure/adapter/PayInRepositoryAdapterIntegrationTest.java
+/home/galopez/projects/payIn/src/test/java/com/payin/interfaces/rest/PayInControllerIntegrationTest.java
+/home/galopez/projects/payIn/src/test/java/com/payin/domain/model/PayInTest.java
