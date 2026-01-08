@@ -1,0 +1,16 @@
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/ports/input/PayInUseCase.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/ports/output/PayInRepositoryPort.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/exceptions/DomainException.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/model/PaymentProvider.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/model/PaymentMethod.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/service/PayInService.java
+/home/galopez/projects/payIn/src/main/java/com/payin/infrastructure/adapter/PayInRepositoryAdapter.java
+/home/galopez/projects/payIn/src/main/java/com/payin/interfaces/rest/PayInController.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/model/Customer.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/model/Account.java
+/home/galopez/projects/payIn/src/main/java/com/payin/interfaces/rest/dto/CreatePayInRequest.java
+/home/galopez/projects/payIn/src/main/java/com/payin/infrastructure/repository/JpaPayInRepository.java
+/home/galopez/projects/payIn/src/main/java/com/payin/domain/model/PayIn.java
+/home/galopez/projects/payIn/src/main/java/com/payin/interfaces/rest/dto/PayInResponse.java
+/home/galopez/projects/payIn/src/main/java/com/payin/PayInApplication.java
+/home/galopez/projects/payIn/src/main/java/com/payin/infrastructure/entity/PayInEntity.java
