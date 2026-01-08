@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "PayIn API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create PayIn",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 100.50,\n    \"currency\": \"USD\",\n    \"customerId\": \"12345\",\n    \"paymentMethodId\": \"pm_123\",\n    \"description\": \"Test payment\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8426/api/v1/payins",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8426",
+          "path": ["api", "v1", "payins"]
+        }
+      }
+    },
+    {
+      "name": "Process PayIn",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8426/api/v1/payins/{{payinId}}/process",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8426",
+          "path": ["api", "v1", "payins", "{{payinId}}", "process"]
+        }
+      }
+    },
+    {
+      "name": "Get PayIn by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8426/api/v1/payins/{{payinId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8426",
+          "path": ["api", "v1", "payins", "{{payinId}}"]
+        }
+      }
+    }
+  ]
+}
