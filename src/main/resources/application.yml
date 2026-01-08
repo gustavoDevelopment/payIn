@@ -43,7 +43,22 @@ logging:
 
 # Server configuration
 server:
-  port: 8080
+  port: 8426
   error:
     include-message: always
     include-binding-errors: always
+
+# OpenTelemetry Configuration
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # Sample 100% of requests
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+    export:
+      otlp:
+        endpoint: http://localhost:4317 # Default OTLP endpoint
+
+# Logging configuration
