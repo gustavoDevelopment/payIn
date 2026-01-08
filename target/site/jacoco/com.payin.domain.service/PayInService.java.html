@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayInService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">payin-service</a> &gt; <a href="index.source.html" class="el_package">com.payin.domain.service</a> &gt; <span class="el_source">PayInService.java</span></div><h1>PayInService.java</h1><pre class="source lang-java linenums">package com.payin.domain.service;
+
+import com.payin.domain.model.PayIn;
+import com.payin.domain.ports.input.PayInUseCase;
+import com.payin.domain.ports.output.PayInRepositoryPort;
+import com.payin.domain.exceptions.DomainException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+@Service
+<span class="fc" id="L14">@RequiredArgsConstructor</span>
+public class PayInService implements PayInUseCase {
+    
+    private final PayInRepositoryPort payInRepository;
+    
+    @Override
+    @Transactional
+    public PayIn createPayIn(PayIn payIn) {
+        // Set initial state
+<span class="fc" id="L23">        payIn.setId(UUID.randomUUID());</span>
+<span class="fc" id="L24">        payIn.setStatus(PayIn.PayInStatus.CREATED);</span>
+<span class="fc" id="L25">        payIn.setTransactionId(generateTransactionId());</span>
+<span class="fc" id="L26">        payIn.setCreatedAt(java.time.LocalDateTime.now());</span>
+<span class="fc" id="L27">        payIn.setUpdatedAt(java.time.LocalDateTime.now());</span>
+        
+        // Validate the payin
+<span class="fc" id="L30">        payIn.validate();</span>
+        
+        // Save to repository
+<span class="fc" id="L33">        return payInRepository.save(payIn);</span>
+    }
+    
+    @Override
+    @Transactional
+    public PayIn processPayIn(UUID payInId) {
+        // Find the payin
+<span class="fc" id="L40">        PayIn payIn = payInRepository.findById(payInId)</span>
+<span class="fc" id="L41">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;PayIn not found with id: &quot; + payInId));</span>
+        
+        // Process the payin
+        try {
+<span class="fc" id="L45">            payIn.process();</span>
+            // Here you would typically integrate with a payment gateway
+            // For now, we'll just update the status
+<span class="fc" id="L48">            return payInRepository.save(payIn);</span>
+<span class="fc" id="L49">        } catch (Exception e) {</span>
+<span class="fc" id="L50">            payIn.fail(e.getMessage());</span>
+<span class="fc" id="L51">            return payInRepository.save(payIn);</span>
+        }
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public PayIn getPayIn(UUID payInId) {
+<span class="fc" id="L58">        return payInRepository.findById(payInId)</span>
+<span class="fc" id="L59">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;PayIn not found with id: &quot; + payInId));</span>
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public PayIn getPayInByTransactionId(String transactionId) {
+<span class="fc" id="L65">        return payInRepository.findByTransactionId(transactionId)</span>
+<span class="fc" id="L66">                .orElseThrow(() -&gt; new DomainException(&quot;No se encontró el PayIn con transactionId: &quot; + transactionId, &quot;PAYIN-009&quot;));</span>
+    }
+    
+    private String generateTransactionId() {
+<span class="fc" id="L70">        return &quot;TXN&quot; + System.currentTimeMillis() + &quot;&quot; + (int)(Math.random() * 1000);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

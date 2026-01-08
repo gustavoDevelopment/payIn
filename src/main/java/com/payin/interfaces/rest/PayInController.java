@@ -62,4 +62,10 @@ public class PayInController {
     public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(com.payin.domain.exceptions.DomainException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleDomainException(com.payin.domain.exceptions.DomainException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayInResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">payin-service</a> &gt; <a href="index.source.html" class="el_package">com.payin.interfaces.rest.dto</a> &gt; <span class="el_source">PayInResponse.java</span></div><h1>PayInResponse.java</h1><pre class="source lang-java linenums">package com.payin.interfaces.rest.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.payin.domain.model.PayIn;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+<span class="nc bnc" id="L14" title="All 94 branches missed.">@Data</span>
+<span class="pc" id="L15">@Builder</span>
+<span class="nc" id="L16">@NoArgsConstructor</span>
+<span class="fc" id="L17">@AllArgsConstructor</span>
+public class PayInResponse {
+<span class="fc" id="L19">    private UUID id;</span>
+<span class="fc" id="L20">    private String transactionId;</span>
+<span class="fc" id="L21">    private BigDecimal amount;</span>
+<span class="fc" id="L22">    private String currency;</span>
+<span class="fc" id="L23">    private String customerId;</span>
+<span class="fc" id="L24">    private String paymentMethodId;</span>
+<span class="fc" id="L25">    private String status;</span>
+<span class="fc" id="L26">    private String description;</span>
+<span class="fc" id="L27">    private String errorMessage;</span>
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;yyyy-MM-dd'T'HH:mm:ss.SSS'Z'&quot;)
+<span class="fc" id="L30">    private LocalDateTime createdAt;</span>
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = &quot;yyyy-MM-dd'T'HH:mm:ss.SSS'Z'&quot;)
+<span class="fc" id="L33">    private LocalDateTime updatedAt;</span>
+    
+    public static PayInResponse fromDomain(PayIn payIn) {
+<span class="fc" id="L36">        return PayInResponse.builder()</span>
+<span class="fc" id="L37">                .id(payIn.getId())</span>
+<span class="fc" id="L38">                .transactionId(payIn.getTransactionId())</span>
+<span class="fc" id="L39">                .amount(payIn.getAmount())</span>
+<span class="fc" id="L40">                .currency(payIn.getCurrency())</span>
+<span class="fc" id="L41">                .customerId(payIn.getCustomerId())</span>
+<span class="fc" id="L42">                .paymentMethodId(payIn.getPaymentMethodId())</span>
+<span class="fc" id="L43">                .status(payIn.getStatus().name())</span>
+<span class="fc" id="L44">                .description(payIn.getDescription())</span>
+<span class="fc" id="L45">                .errorMessage(payIn.getErrorMessage())</span>
+<span class="fc" id="L46">                .createdAt(payIn.getCreatedAt())</span>
+<span class="fc" id="L47">                .updatedAt(payIn.getUpdatedAt())</span>
+<span class="fc" id="L48">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

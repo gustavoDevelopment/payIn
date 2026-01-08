@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayInController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">payin-service</a> &gt; <a href="index.source.html" class="el_package">com.payin.interfaces.rest</a> &gt; <span class="el_source">PayInController.java</span></div><h1>PayInController.java</h1><pre class="source lang-java linenums">package com.payin.interfaces.rest;
+
+import com.payin.domain.model.PayIn;
+import com.payin.domain.ports.input.PayInUseCase;
+import com.payin.interfaces.rest.dto.CreatePayInRequest;
+import com.payin.interfaces.rest.dto.PayInResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping(&quot;/api/v1/payins&quot;)
+@RequiredArgsConstructor
+public class PayInController {
+
+    private final PayInUseCase payInUseCase;
+
+    @PostMapping
+    public ResponseEntity&lt;PayInResponse&gt; createPayIn(@Valid @RequestBody CreatePayInRequest request) {
+<span class="fc" id="L24">        PayIn payIn = PayIn.builder()</span>
+<span class="fc" id="L25">                .amount(request.getAmount())</span>
+<span class="fc" id="L26">                .currency(request.getCurrency())</span>
+<span class="fc" id="L27">                .customerId(request.getCustomerId())</span>
+<span class="fc" id="L28">                .paymentMethodId(request.getPaymentMethodId())</span>
+<span class="fc" id="L29">                .description(request.getDescription())</span>
+<span class="fc" id="L30">                .build();</span>
+
+<span class="fc" id="L32">        PayIn createdPayIn = payInUseCase.createPayIn(payIn);</span>
+<span class="fc" id="L33">        return new ResponseEntity&lt;&gt;(PayInResponse.fromDomain(createdPayIn), HttpStatus.CREATED);</span>
+    }
+
+    @PostMapping(&quot;/{id}/process&quot;)
+    public ResponseEntity&lt;PayInResponse&gt; processPayIn(@PathVariable UUID id) {
+<span class="fc" id="L38">        PayIn processedPayIn = payInUseCase.processPayIn(id);</span>
+<span class="fc" id="L39">        return ResponseEntity.ok(PayInResponse.fromDomain(processedPayIn));</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;PayInResponse&gt; getPayIn(@PathVariable UUID id) {
+<span class="fc" id="L44">        PayIn payIn = payInUseCase.getPayIn(id);</span>
+<span class="fc" id="L45">        return ResponseEntity.ok(PayInResponse.fromDomain(payIn));</span>
+    }
+
+    @GetMapping(&quot;/transaction/{transactionId}&quot;)
+    public ResponseEntity&lt;PayInResponse&gt; getPayInByTransactionId(@PathVariable String transactionId) {
+<span class="fc" id="L50">        PayIn payIn = payInUseCase.getPayInByTransactionId(transactionId);</span>
+<span class="fc" id="L51">        return ResponseEntity.ok(PayInResponse.fromDomain(payIn));</span>
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity&lt;String&gt; handleNotFoundException(IllegalArgumentException ex) {
+<span class="fc" id="L57">        return new ResponseEntity&lt;&gt;(ex.getMessage(), HttpStatus.NOT_FOUND);</span>
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity&lt;String&gt; handleIllegalStateException(IllegalStateException ex) {
+<span class="fc" id="L63">        return new ResponseEntity&lt;&gt;(ex.getMessage(), HttpStatus.BAD_REQUEST);</span>
+    }
+
+    @ExceptionHandler(com.payin.domain.exceptions.DomainException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity&lt;String&gt; handleDomainException(com.payin.domain.exceptions.DomainException ex) {
+<span class="fc" id="L69">        return new ResponseEntity&lt;&gt;(ex.getMessage(), HttpStatus.BAD_REQUEST);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
